@@ -6,6 +6,8 @@ import botocore.exceptions
 
 
 def backup(local_path, bucket_path):
+    local_path = local_path.replace('\\', '/')
+    bucket_path = bucket_path.replace('\\', '/')
     # Making sure the local path passed in is a valid directory
     if not os.path.isdir(local_path):
         print(f"{local_path} is not a valid directory")
@@ -86,6 +88,8 @@ def upload_to_bucket(client, local_path, bucket, key):
 
 
 def restore(local_path, bucket_path):
+    local_path = local_path.replace('\\', '/')
+    bucket_path = bucket_path.replace('\\', '/')
     # split the bucket and the directory
     split = bucket_path.split('::')
     try:
