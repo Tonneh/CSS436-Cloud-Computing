@@ -4,6 +4,7 @@ from datetime import datetime as dt, timezone as tz
 import boto3
 import botocore.exceptions
 
+
 def backup(local_path, bucket_path):
     # Making sure the local path passed in is a valid directory
     if not os.path.isdir(local_path):
@@ -25,6 +26,8 @@ def backup(local_path, bucket_path):
         local_path += '/'
     if not bucket_directory.endswith('/'):
         bucket_directory += '/'
+    if local_path.startswith('/'):
+        local_path = local_path[1:]
     client = boto3.client("s3")
 
     # If bucket doesn't exist then we'll create one
@@ -95,6 +98,11 @@ def restore(local_path, bucket_path):
     # Add forward slashes to the end
     if not key.endswith('/'):
         key += '/'
+    if key.startswith('/'):
+        key = key[1:]
+    if local_path.startswith('/'):
+        local_path = local_path[1:]
+
     client = boto3.client("s3")
 
     # If bucket doesn't exist then we'll just print and error and return
@@ -129,8 +137,8 @@ def download_to_local(client, local_path, bucket, key):
 if __name__ == '__main__':
     if len(sys.argv) != 4:
         print('Error, please use this format')
-        print('backup: python backup directory bucket::directory')
-        print('restore: python restore bucket::directory directory')
+        print('backup: python prog3.py backup directory bucket::directory')
+        print('restore: python prog3.py restore bucket::directory directory')
         sys.exit(1)
     if sys.argv[1] == 'backup':
         backup(sys.argv[2], sys.argv[3])
