@@ -1,0 +1,12 @@
+/Users/tonyle/Desktop/UW School/CSS436/HomeWork/prog4/target/debug/deps/cookie-d408ae0306cf4d7c.rmeta: /Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/lib.rs /Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/builder.rs /Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/parse.rs /Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/jar.rs /Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/delta.rs /Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/draft.rs
+
+/Users/tonyle/Desktop/UW School/CSS436/HomeWork/prog4/target/debug/deps/libcookie-d408ae0306cf4d7c.rlib: /Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/lib.rs /Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/builder.rs /Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/parse.rs /Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/jar.rs /Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/delta.rs /Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/draft.rs
+
+/Users/tonyle/Desktop/UW School/CSS436/HomeWork/prog4/target/debug/deps/cookie-d408ae0306cf4d7c.d: /Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/lib.rs /Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/builder.rs /Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/parse.rs /Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/jar.rs /Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/delta.rs /Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/draft.rs
+
+/Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/lib.rs:
+/Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/builder.rs:
+/Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/parse.rs:
+/Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/jar.rs:
+/Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/delta.rs:
+/Users/tonyle/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.5/src/draft.rs:
