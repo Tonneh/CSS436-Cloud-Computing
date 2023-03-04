@@ -1,0 +1,45 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+.button {
+    display: inline-block;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 4px 2px;
+    width: 10em;
+}
+
+.button:hover {
+    background-color: #0062cc;
+}
+
+.input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    padding: 12px;
+    width: 10em;
+    margin: 4px 2px;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+body {
+    background-color: #383838;
+}
+
+p {
+    color: white;
+}
