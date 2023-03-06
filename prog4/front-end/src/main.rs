@@ -1,13 +1,11 @@
-mod text_input;
 mod read_site;
+mod text_input;
 
-use crate::text_input::Props;
-use crate::text_input::TextInput;
-use yew::prelude::*;
-use crate::read_site::read_text;
 use gloo::console::log;
-use futures::channel::oneshot;
+use read_site::read_text;
+use text_input::{Props, TextInput};
 use wasm_bindgen::JsValue;
+use yew::prelude::*;
 
 struct App {
     site_data: String,
@@ -27,14 +25,14 @@ impl From<String> for Msg {
 }
 
 impl App {
-     fn get_data(&self, ctx :&Context<Self>) {
-         let url = "https://s3-us-west-2.amazonaws.com/css490/input.txt";
-         let link = ctx.link().clone();
-         wasm_bindgen_futures::spawn_local(async move {
-             let test = read_text(&url).await;
-             link.send_message(Msg::from(test));
-         });
-     }
+    fn get_data(&self, ctx: &Context<Self>) {
+        let url = "https://s3-us-west-2.amazonaws.com/css490/input.txt";
+        let link = ctx.link().clone();
+        wasm_bindgen_futures::spawn_local(async move {
+            let test = read_text(&url).await;
+            link.send_message(Msg::from(test));
+        });
+    }
 }
 
 impl Component for App {
@@ -52,21 +50,17 @@ impl Component for App {
             Msg::Load => {
                 self.get_data(ctx.clone());
             }
-            Msg::Unload => {
-
-            }
-            Msg::Query => {
-            }
+            Msg::Unload => {}
+            Msg::Query => {}
             Msg::SiteData(data) => {
                 self.site_data = data;
             }
         }
-
         true
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
-        let text_input_props = Props {name: "".into() };
+        let text_input_props = Props { name: "".into() };
         html! {
         <div>
             <button class = "button" onclick={ctx.link().callback(|_| Msg::Load)}>{ "Load" }</button>
@@ -81,7 +75,6 @@ impl Component for App {
         }
     }
 }
-
 
 fn main() {
     yew::Renderer::<App>::new().render();

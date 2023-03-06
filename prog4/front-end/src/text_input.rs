@@ -1,11 +1,11 @@
-use yew::prelude::*;
 use gloo::console::log;
-use web_sys::HtmlInputElement;
 use wasm_bindgen::JsCast;
+use web_sys::HtmlInputElement;
+use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
-    pub name : String,
+    pub name: String,
 }
 
 #[function_component(TextInput)]

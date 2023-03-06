@@ -40,6 +40,6 @@ body {
     background-color: #383838;
 }
 
-p {
+.parsed_data {
     color: white;
 }
