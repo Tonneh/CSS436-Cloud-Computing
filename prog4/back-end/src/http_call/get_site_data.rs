@@ -1,4 +1,3 @@
-
 pub async fn get_names(url: &str) -> Result<String, reqwest::Error> {
     let response = reqwest::get(url).await?;
 

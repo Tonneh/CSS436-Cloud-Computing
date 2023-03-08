@@ -1,11 +1,10 @@
-mod read_site;
 mod text_input;
 
 use gloo::console::log;
-use read_site::read_text;
 use text_input::{Props, TextInput};
 use wasm_bindgen::JsValue;
 use yew::prelude::*;
+use reqwasm::http::Request;
 
 struct App {
     site_data: String,
@@ -25,12 +24,29 @@ impl From<String> for Msg {
 }
 
 impl App {
-    fn get_data(&self, ctx: &Context<Self>) {
-        let url = "https://s3-us-west-2.amazonaws.com/css490/input.txt";
+    fn load(&self, ctx: &Context<Self>) {
+        let load_endpoint =
+            format!("http://127.0.0.1:8000/load");
         let link = ctx.link().clone();
         wasm_bindgen_futures::spawn_local(async move {
-            let test = read_text(&url).await;
-            link.send_message(Msg::from(test));
+            let fetched_load = Request::get(&load_endpoint)
+                .send()
+                .await;
+            match fetched_load {
+                Ok(response) => {
+                    let str = response.text().await;
+                    match str {
+                        Ok(str) => {
+                            log!(&*str);
+                        }
+                        Err(err) => {
+                        }
+                    }
+                }
+                Err(err) => {
+                }
+            }
+            //link.send_message(Msg::from(fetched_load));
         });
     }
 }
@@ -48,7 +64,7 @@ impl Component for App {
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::Load => {
-                self.get_data(ctx.clone());
+                self.load(ctx.clone());
             }
             Msg::Unload => {}
             Msg::Query => {}

@@ -1,8 +1,11 @@
 use std::collections::HashMap;
-use crate::file;
-use crate::file::read::read;
+use std::fs;
+use std::fs::File;
+use std::io::Write;
 
-pub fn parse_input_file(filename: &str) -> Result<HashMap<String, HashMap<String, String>>, Box<dyn std::error::Error>> {
+pub fn parse_input_file(
+    filename: &str,
+) -> Result<HashMap<String, HashMap<String, String>>, Box<dyn std::error::Error>> {
     let file = read(filename)?;
 
     let mut map = HashMap::new();
@@ -25,4 +28,15 @@ pub fn parse_input_file(filename: &str) -> Result<HashMap<String, HashMap<String
         map.insert(name, values);
     }
     Ok(map)
+}
+
+pub fn read(path_to_file: &str) -> Result<String, Box<dyn std::error::Error>> {
+    let content = fs::read_to_string(path_to_file)?;
+    Ok(content)
+}
+
+pub fn write(path_to_file: &str, content: String) -> Result<(), Box<dyn std::error::Error>> {
+    let mut file = File::create(path_to_file)?;
+    file.write_all(content.as_bytes())?;
+    Ok(())
 }
