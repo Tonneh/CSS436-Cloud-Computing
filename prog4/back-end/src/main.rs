@@ -10,6 +10,7 @@ use std::collections::HashMap;
 
 use rocket::serde::{json::Json, Deserialize, Serialize};
 use rocket::*;
+use serde_json::json;
 
 // #[tokio::main]
 // async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -30,7 +31,7 @@ use rocket::*;
 async fn query(name: &str) -> String {
     match ddb_query(name).await {
         Ok(response) => {
-            let json_string = serde_json::to_string(&response).unwrap();
+            let json_string = serde_json::to_string_pretty(&response).unwrap();
             json_string
         }
         Err(err) => {
@@ -53,9 +54,8 @@ async fn load() -> String {
     let combined_map = ddb_combine_maps(map).await.unwrap_or_default();
     match ddb_upload(&combined_map).await {
         Ok(uploaded_map) => {
-            let json_string = serde_json::to_string(&uploaded_map).unwrap();
-            let output_str = "Successfully uploaded: \n".to_owned() + &json_string;
-            output_str
+            let json_string = serde_json::to_string_pretty(&uploaded_map).unwrap();
+            json_string
         }
         Err(err) => {
             format!("Error: {}", err.to_string())
