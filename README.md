@@ -24,4 +24,4 @@ Rust
 </br>
 Yew, Rocket, WASM 
 </br> 
-EC2, S3, DDB
+EC2, S3, DynamoDB
