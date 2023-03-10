@@ -1,9 +1,7 @@
 use aws_sdk_dynamodb::*;
 use std::collections::HashMap;
-use std::collections::HashSet;
 
 use aws_sdk_dynamodb::model::{AttributeValue, PutRequest, Select, WriteRequest};
-use tokio_stream::StreamExt;
 
 static TABLE_NAME: &str = "prog4Tony";
 
@@ -36,12 +34,12 @@ pub async fn ddb_combine_maps(
 }
 
 pub async fn ddb_upload(
-    map: &HashMap<String, HashMap<String, String>>,
-) -> Result<HashMap<String, HashMap<String, String>>, Box<dyn std::error::Error>> {
+    map: HashMap<String, HashMap<String, String>>,
+) -> Result<(), Box<dyn std::error::Error>> {
     let config = aws_config::load_from_env().await;
     let client = Client::new(&config);
 
-    for (key, value) in map.iter() {
+    for (key, value) in map.into_iter() {
         let mut item = HashMap::new();
         let split_name: Vec<&str> = key.as_str().split(' ').collect();
         item.insert("FullName".to_string(), AttributeValue::S(key.to_string()));
@@ -70,12 +68,12 @@ pub async fn ddb_upload(
             .send()
             .await?;
     }
-    Ok(map.clone())
+    Ok(())
 }
 
-pub async fn ddb_query(
+pub async fn ddb_query_last_name(
     query: &str,
-) -> Result<Vec<HashMap<String, String>>, Box<dyn std::error::Error>> {
+) -> Result<HashMap<String, HashMap<String, String>>, Box<dyn std::error::Error>> {
     let config = aws_config::load_from_env().await;
     let client = Client::new(&config);
     let last_name_response = client
@@ -89,8 +87,29 @@ pub async fn ddb_query(
         .send()
         .await?;
 
-    let mut items: Vec<HashMap<String, String>> = Vec::new();
-    let mut seen_names: HashSet<String> = HashSet::new();
+    let mut items: HashMap<String, HashMap<String, String>> = HashMap::new();
+
+    if last_name_response.items().is_some() {
+        for item in last_name_response.items.unwrap_or_default() {
+            let mut inner_map: HashMap<String, String> = HashMap::new();
+            for (inner_key, inner_value) in item.iter() {
+                inner_map.insert(inner_key.to_owned(), inner_value.as_s().unwrap().to_owned());
+            }
+            inner_map.remove("First-Name");
+            inner_map.remove("Last-Name");
+            items.insert(inner_map.remove("FullName").unwrap_or_default(), inner_map);
+        }
+    }
+    Ok(items)
+}
+
+pub async fn ddb_query_first_name(
+    query: &str,
+) -> Result<HashMap<String, HashMap<String, String>>, Box<dyn std::error::Error>> {
+    let config = aws_config::load_from_env().await;
+    let client = Client::new(&config);
+
+    let mut items: HashMap<String, HashMap<String, String>> = HashMap::new();
     let first_name_response = client
         .query()
         .table_name(TABLE_NAME)
@@ -102,29 +121,46 @@ pub async fn ddb_query(
         .send()
         .await?;
 
-    if last_name_response.items().is_some() {
-        for item in last_name_response.items.unwrap() {
-            let mut inner_map: HashMap<String, String> = HashMap::new();
-            if item.contains_key("FullName") {
-                seen_names.insert(item["FullName"].as_s().unwrap().clone());
-            }
-            for (inner_key, inner_value) in item.iter() {
-                inner_map.insert(inner_key.to_owned(), inner_value.as_s().unwrap().to_owned());
-            }
-            items.push(inner_map);
-        }
-    }
     if first_name_response.items().is_some() {
         for item in first_name_response.items.unwrap() {
-            if item.contains_key("FullName")
-                && seen_names.contains(item["FullName"].as_s().unwrap()) {
-                continue;
-            }
             let mut inner_map: HashMap<String, String> = HashMap::new();
             for (inner_key, inner_value) in item.iter() {
                 inner_map.insert(inner_key.to_owned(), inner_value.as_s().unwrap().to_owned());
             }
-            items.push(inner_map);
+            inner_map.remove("First-Name");
+            inner_map.remove("Last-Name");
+            items.insert(inner_map.remove("FullName").unwrap_or_default(), inner_map);
+        }
+    }
+    Ok(items)
+}
+
+pub async fn ddb_query_full_name(
+    query: &str,
+) -> Result<HashMap<String, HashMap<String, String>>, Box<dyn std::error::Error>> {
+    let config = aws_config::load_from_env().await;
+    let client = Client::new(&config);
+
+    let mut items: HashMap<String, HashMap<String, String>> = HashMap::new();
+    let full_name_response = client
+        .query()
+        .table_name(TABLE_NAME)
+        .key_condition_expression("#key = :value".to_string())
+        .expression_attribute_names("#key".to_string(), "FullName".to_string())
+        .expression_attribute_values(":value".to_string(), AttributeValue::S(query.to_string()))
+        .select(Select::AllAttributes)
+        .send()
+        .await?;
+
+    if full_name_response.items().is_some() {
+        for item in full_name_response.items.unwrap_or_default() {
+            let mut inner_map: HashMap<String, String> = HashMap::new();
+            for (inner_key, inner_value) in item.iter() {
+                inner_map.insert(inner_key.to_owned(), inner_value.as_s().unwrap().to_owned());
+            }
+            inner_map.remove("First-Name");
+            inner_map.remove("Last-Name");
+            items.insert(inner_map.remove("FullName").unwrap_or_default(), inner_map);
         }
     }
     Ok(items)
@@ -133,20 +169,15 @@ pub async fn ddb_query(
 pub async fn ddb_clear() -> Result<(), Box<dyn std::error::Error>> {
     let config = aws_config::load_from_env().await;
     let client = Client::new(&config);
-    let response = client
-        .scan()
-        .table_name(TABLE_NAME)
-        .send()
-        .await?;
+    let response = client.scan().table_name(TABLE_NAME).send().await?;
     if response.items().is_some() {
-        for item in response.items.unwrap() {
+        for item in response.items.unwrap_or_default() {
             client
                 .delete_item()
                 .table_name(TABLE_NAME)
-                .key("FullName",  item["FullName"].clone())
+                .key("FullName", item["FullName"].clone())
                 .send()
                 .await?;
-
         }
     }
     Ok(())
