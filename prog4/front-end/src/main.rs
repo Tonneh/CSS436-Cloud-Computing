@@ -29,7 +29,7 @@ impl From<String> for Msg {
 
 impl App {
     fn load(&self, ctx: &Context<Self>) {
-        let load_endpoint = format!("http://35.87.106.62:8000/load");
+        let load_endpoint = format!("http://18.236.174.10:8000/load");
         let link = ctx.link().clone();
         wasm_bindgen_futures::spawn_local(async move {
             let fetched_load = Request::get(&load_endpoint).send().await;
@@ -53,7 +53,7 @@ impl App {
     }
 
     fn unload(&self, ctx: &Context<Self>) {
-        let unload_endpoint = format!("http://35.87.106.62:8000/unload");
+        let unload_endpoint = format!("http://18.236.174.10:8000/unload");
         let link = ctx.link().clone();
         wasm_bindgen_futures::spawn_local(async move {
             let fetched_unload = Request::get(&unload_endpoint).send().await;
@@ -77,7 +77,7 @@ impl App {
     }
 
     fn query(&self, ctx: &Context<Self>) {
-        let mut query_endpoint = "http://35.87.106.62:8000/query".to_string();
+        let mut query_endpoint = "http://18.236.174.10/query".to_string();
         let last_name = self.last_name.clone();
         let first_name = self.first_name.clone();
         let link = ctx.link().clone();
