@@ -5,23 +5,25 @@ Professor Robert Dimpsey
 
 Prog 1 - Simple Web Crawl
 </br>
-Java 
+Language: Java 
 
 
 Prog2 - REST
 </br>
-Java
+Language: Java
 
 Prog3 - Backup/Restore 
 </br>
-Python
+Language: Python
 </br>
-boto3 
+SDKS: boto3 
 
 Prog4 - Website + Storage
 </br>
-Rust
+Languages: Rust
 </br>
-Yew, Rocket, WASM 
+Frameworks: Yew, Rocket
+</br>
+SDKS: aws-sdk-s3, aws-sdk-dynamodb
 </br> 
-EC2, S3, DynamoDB
+Services: EC2, S3, DynamoDB
