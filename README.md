@@ -24,4 +24,4 @@ Rust
 </br>
 Yew, Rocket, WASM 
 </br> 
-EC2 (Elastic Compute Cloud), S3 (Simple Storage Service), DDB (DynamoDB)
+EC2, S3, DDB
