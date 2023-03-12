@@ -1,5 +1,12 @@
 Bowie David age=58 id=8765
-Byrne David age=55 id=879897
+Byrne David age=55 id=879897 fun=no school=fun age=88
 Cassidy David happy=true id=765
 Strummer Joe  age=ageless id=1
 Costello Elvis age=61 album=MyAim
+aaaa age=1000
+Tony Le 
+Dimpsey Robert 		id=65764 phone=4528769876 office=trulyhouse
+			Winfrey Opal id=87643 phone=8769870987 age=57
+ Trevor Billy id=7638 age=81 gender=M
+			Munro      Alice    id=9876 a   ge=65 gender=F
+Dimpsey Pearl id=98776 ph   one=4528769876 office=none

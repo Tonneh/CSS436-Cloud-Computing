@@ -2,6 +2,7 @@ use aws_sdk_dynamodb::*;
 use std::collections::HashMap;
 
 use aws_sdk_dynamodb::model::{AttributeValue, PutRequest, Select, WriteRequest};
+use rocket::log::private::log;
 
 static TABLE_NAME: &str = "prog4Tony";
 
@@ -120,9 +121,8 @@ pub async fn ddb_query_first_name(
         .select(Select::AllAttributes)
         .send()
         .await?;
-
     if first_name_response.items().is_some() {
-        for item in first_name_response.items.unwrap() {
+        for item in first_name_response.items.unwrap_or_default() {
             let mut inner_map: HashMap<String, String> = HashMap::new();
             for (inner_key, inner_value) in item.iter() {
                 inner_map.insert(inner_key.to_owned(), inner_value.as_s().unwrap().to_owned());
